@@ -1,12 +1,16 @@
 package ua.pp.disik.englishroulette.backend.services;
 
-import io.jsonwebtoken.Clock;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.compression.GzipCompressionCodec;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
 @Service
 public class JWTTokenService implements Clock {
@@ -30,5 +34,53 @@ public class JWTTokenService implements Clock {
     @Override
     public Date now() {
         return DateTime.now().toDate();
+    }
+
+    public String permanent(Map<String, String> attributes) {
+        return newToken(attributes, 0);
+    }
+
+    public String expiring(Map<String, String> attributes) {
+        return newToken(attributes, expirationSec);
+    }
+
+    private String newToken(Map<String, String> attributes, int expirationSec) {
+        DateTime now = DateTime.now();
+        Claims claims = Jwts
+                .claims()
+                .setIssuer(issuer)
+                .setIssuedAt(now.toDate());
+
+        if (expirationSec > 0) {
+            final DateTime expiresAt = now.plusSeconds(expirationSec);
+            claims.setExpiration(expiresAt.toDate());
+        }
+        claims.putAll(attributes);
+
+        return Jwts
+                .builder()
+                .setClaims(claims)
+                .signWith(HS256, secretKey)
+                .compressWith(COMPRESSION_CODEC)
+                .compact();
+    }
+
+    public Map<String, String> verify(final String token) {
+        JwtParser parser = Jwts
+                .parser()
+                .requireIssuer(issuer)
+                .setClock(this)
+                .setAllowedClockSkewSeconds(clockSkewSec)
+                .setSigningKey(secretKey);
+        try {
+            Claims claims = parser.parseClaimsJws(token).getBody();
+            Map<String, String> body = new HashMap<>();
+            for (final Map.Entry<String, Object> e : claims.entrySet()) {
+                body.put(e.getKey(), String.valueOf(e.getValue()));
+            }
+            return body;
+        } catch (IllegalArgumentException | JwtException e) {
+            return new HashMap<>();
+        }
     }
 }
