@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ua.pp.disik.englishroulette.backend.entities.User;
 import ua.pp.disik.englishroulette.backend.repositories.UserRepository;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -16,5 +18,9 @@ public class UserService {
 
     public User save(User user) {
         return userRepository.save(user);
+    }
+
+    public Optional<User> findById(Integer id) {
+        return userRepository.findById(id);
     }
 }
