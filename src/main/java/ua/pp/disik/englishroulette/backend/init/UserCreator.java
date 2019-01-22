@@ -7,18 +7,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ua.pp.disik.englishroulette.backend.entities.Role;
 import ua.pp.disik.englishroulette.backend.entities.User;
-import ua.pp.disik.englishroulette.backend.repositories.UserRepository;
+import ua.pp.disik.englishroulette.backend.services.UserService;
 
 @Component
 @Slf4j
 public class UserCreator implements CommandLineRunner {
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserCreator(UserRepository userRepository,
+    public UserCreator(UserService userService,
                        PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -32,8 +32,8 @@ public class UserCreator implements CommandLineRunner {
             String adminEmail = "root@root.test";
             User admin = new User(adminEmail, adminEmail, passwordEncoder.encode(adminEmail), Role.ADMIN);
 
-            log.info(userRepository.save(user).toString());
-            log.info(userRepository.save(admin).toString());
+            log.info(userService.save(user).toString());
+            log.info(userService.save(admin).toString());
         }
     }
 }
