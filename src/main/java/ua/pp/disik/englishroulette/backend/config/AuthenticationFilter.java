@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import ua.pp.disik.englishroulette.backend.entities.JwtToken;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -23,7 +24,8 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response)
             throws AuthenticationException, IOException, ServletException {
-        String token = Optional.ofNullable(request.getParameter("token"))
+        JwtToken token = Optional.ofNullable(request.getParameter("token"))
+                .map(JwtToken::new)
                 .orElseThrow(() -> new BadCredentialsException("Missing authentication token"));
 
         Authentication auth = new UsernamePasswordAuthenticationToken(token, token);

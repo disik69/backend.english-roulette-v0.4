@@ -7,6 +7,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+import ua.pp.disik.englishroulette.backend.entities.JwtToken;
 import ua.pp.disik.englishroulette.backend.services.AuthenticationService;
 
 @Component
@@ -25,7 +26,7 @@ public class AuthenticationProvider extends AbstractUserDetailsAuthenticationPro
 
     @Override
     protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
-        String token = (String) authentication.getCredentials();
+        JwtToken token = (JwtToken) authentication.getCredentials();
 
         return authenticationService.findByToken(token)
                 .orElseThrow(() -> new UsernameNotFoundException("Cannot find user with authentication token=" + token));

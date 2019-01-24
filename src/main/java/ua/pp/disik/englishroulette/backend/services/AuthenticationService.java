@@ -3,6 +3,7 @@ package ua.pp.disik.englishroulette.backend.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.pp.disik.englishroulette.backend.entities.JwtToken;
 import ua.pp.disik.englishroulette.backend.entities.User;
 
 import java.util.HashMap;
@@ -22,13 +23,13 @@ public class AuthenticationService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Optional<User> findByToken(String token) {
+    public Optional<User> findByToken(JwtToken token) {
         return Optional.ofNullable(jwtTokenService.verify(token).get("id"))
                 .map(Integer::valueOf)
                 .flatMap(userService::findById);
     }
 
-    public Optional<String> signIn(String email, String password) {
+    public Optional<JwtToken> signIn(String email, String password) {
         return userService.findByEmail(email)
                 .filter(value -> passwordEncoder.matches(password, value.getPassword()))
                 .map(value -> {
