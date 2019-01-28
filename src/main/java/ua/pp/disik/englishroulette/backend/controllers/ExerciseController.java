@@ -1,41 +1,37 @@
 package ua.pp.disik.englishroulette.backend.controllers;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import ua.pp.disik.englishroulette.backend.entities.User;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/exercise")
+public class ExerciseController {
     @GetMapping()
     String read() {
-        return "read users";
+        return "read exercises";
     }
 
     @GetMapping("/{id}")
     String read(@PathVariable Integer id) {
-        return "read user";
+        return "read exercise";
     }
 
     @PostMapping()
     String create() {
-        return "create user";
+        return "create exercise";
     }
 
     @PutMapping("/{id}")
     String update(@PathVariable Integer id) {
-        return "update user";
+        return "update exercise";
     }
 
     @DeleteMapping()
     String delete() {
-        return "delete users";
+        return "delete exercises";
     }
 
     @DeleteMapping("/{id}")
     String delete(@PathVariable Integer id) {
-        return "delete user";
+        return "delete exercise";
     }
 }

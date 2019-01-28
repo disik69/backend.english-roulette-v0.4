@@ -15,6 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -30,6 +31,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     );
 
     private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
+
+    private static final RequestMatcher USER_URLS = new OrRequestMatcher(
+            new AntPathRequestMatcher("/user/*", RequestMethod.GET.name()),
+            new AntPathRequestMatcher("/user/*", RequestMethod.PUT.name()),
+            new AntPathRequestMatcher("/word/**", RequestMethod.GET.name()),
+            new AntPathRequestMatcher("/word", RequestMethod.POST.name()),
+            new AntPathRequestMatcher("/exercise/**")
+    );
+
+    private static final RequestMatcher ADMIN_URLS = new NegatedRequestMatcher(USER_URLS);
 
     private AuthenticationProvider authenticationProvider;
 
@@ -51,7 +62,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .and()
                 .addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class)
                 .authorizeRequests()
-                    .requestMatchers(PROTECTED_URLS).authenticated()
+                    .requestMatchers(USER_URLS).hasAnyRole("USER", "ADMIN")
+                    .requestMatchers(ADMIN_URLS).hasRole("ADMIN")
                     .and()
                 .csrf().disable()
                 .formLogin().disable()
