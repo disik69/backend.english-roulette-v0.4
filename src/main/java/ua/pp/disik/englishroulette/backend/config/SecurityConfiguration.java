@@ -25,7 +25,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
             new AntPathRequestMatcher("/signup"),
             new AntPathRequestMatcher("/signin"),
-            new AntPathRequestMatcher("/check-email"),
             new AntPathRequestMatcher("/check-token"),
             new AntPathRequestMatcher("/error")
     );
