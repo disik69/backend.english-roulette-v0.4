@@ -16,7 +16,6 @@ import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
@@ -39,7 +38,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             new AntPathRequestMatcher("/exercise/**")
     );
 
-    private static final RequestMatcher ADMIN_URLS = new NegatedRequestMatcher(USER_URLS);
+    private static final RequestMatcher ADMIN_URLS = new OrRequestMatcher(
+            new AntPathRequestMatcher("/user/**", RequestMethod.GET.name()),
+            new AntPathRequestMatcher("/user/*", RequestMethod.POST.name()),
+            new AntPathRequestMatcher("/user/**", RequestMethod.DELETE.name()),
+            new AntPathRequestMatcher("/word/*", RequestMethod.PUT.name()),
+            new AntPathRequestMatcher("/word/**", RequestMethod.DELETE.name())
+    );
 
     private AuthenticationProvider authenticationProvider;
 
