@@ -1,11 +1,11 @@
-package ua.pp.disik.englishroulette.backend.services;
+package ua.pp.disik.englishroulette.backend.service;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.compression.GzipCompressionCodec;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ua.pp.disik.englishroulette.backend.entities.JwtToken;
+import ua.pp.disik.englishroulette.backend.entity.JwtToken;
 
 import java.util.Date;
 import java.util.HashMap;

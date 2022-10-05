@@ -1,4 +1,4 @@
-package ua.pp.disik.englishroulette.backend.entities;
+package ua.pp.disik.englishroulette.backend.entity;
 
 import lombok.Data;
 

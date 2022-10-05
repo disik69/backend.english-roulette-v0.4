@@ -1,4 +1,4 @@
-package ua.pp.disik.englishroulette.backend.entities;
+package ua.pp.disik.englishroulette.backend.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,12 +9,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 @Entity
 @Table(
-        indexes = {@Index(columnList = "email", unique = true)}
-        )
+        indexes = {
+                @Index(columnList = "email", unique = true)
+        }
+)
 @Data
 @NoArgsConstructor
 public class User implements UserDetails {

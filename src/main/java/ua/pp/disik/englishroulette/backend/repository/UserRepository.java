@@ -1,7 +1,7 @@
-package ua.pp.disik.englishroulette.backend.repositories;
+package ua.pp.disik.englishroulette.backend.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ua.pp.disik.englishroulette.backend.entities.User;
+import ua.pp.disik.englishroulette.backend.entity.User;
 
 import java.util.Optional;
 

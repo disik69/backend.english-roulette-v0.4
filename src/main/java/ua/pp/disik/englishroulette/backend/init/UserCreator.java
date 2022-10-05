@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import ua.pp.disik.englishroulette.backend.entities.Role;
-import ua.pp.disik.englishroulette.backend.entities.User;
-import ua.pp.disik.englishroulette.backend.services.UserService;
+import ua.pp.disik.englishroulette.backend.entity.Role;
+import ua.pp.disik.englishroulette.backend.entity.User;
+import ua.pp.disik.englishroulette.backend.service.UserService;
 
 @Component
 @Slf4j

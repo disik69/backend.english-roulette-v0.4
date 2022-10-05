@@ -1,10 +1,10 @@
-package ua.pp.disik.englishroulette.backend.services;
+package ua.pp.disik.englishroulette.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ua.pp.disik.englishroulette.backend.entities.JwtToken;
-import ua.pp.disik.englishroulette.backend.entities.User;
+import ua.pp.disik.englishroulette.backend.entity.JwtToken;
+import ua.pp.disik.englishroulette.backend.entity.User;
 
 import java.util.HashMap;
 import java.util.Map;

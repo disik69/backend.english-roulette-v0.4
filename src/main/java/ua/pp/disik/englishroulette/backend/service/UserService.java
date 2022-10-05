@@ -1,9 +1,9 @@
-package ua.pp.disik.englishroulette.backend.services;
+package ua.pp.disik.englishroulette.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.pp.disik.englishroulette.backend.entities.User;
-import ua.pp.disik.englishroulette.backend.repositories.UserRepository;
+import ua.pp.disik.englishroulette.backend.entity.User;
+import ua.pp.disik.englishroulette.backend.repository.UserRepository;
 
 import java.util.Optional;
 

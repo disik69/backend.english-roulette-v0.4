@@ -1,4 +1,4 @@
-package ua.pp.disik.englishroulette.backend.controllers;
+package ua.pp.disik.englishroulette.backend.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -6,41 +6,41 @@ import org.springframework.web.bind.annotation.*;
 
 @Api
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/word")
+public class WordController {
     @GetMapping()
     @ApiImplicitParam(name = "token", value = "token", paramType = "query")
     String read() {
-        return "read users";
+        return "read words";
     }
 
     @GetMapping("/{id}")
     @ApiImplicitParam(name = "token", value = "token", paramType = "query")
     String read(@PathVariable Integer id) {
-        return "read user";
+        return "read word";
     }
 
     @PostMapping()
     @ApiImplicitParam(name = "token", value = "token", paramType = "query")
     String create() {
-        return "create user";
+        return "create word";
     }
 
     @PutMapping("/{id}")
     @ApiImplicitParam(name = "token", value = "token", paramType = "query")
     String update(@PathVariable Integer id) {
-        return "update user";
+        return "update word";
     }
 
     @DeleteMapping()
     @ApiImplicitParam(name = "token", value = "token", paramType = "query")
     String delete() {
-        return "delete users";
+        return "delete words";
     }
 
     @DeleteMapping("/{id}")
     @ApiImplicitParam(name = "token", value = "token", paramType = "query")
     String delete(@PathVariable Integer id) {
-        return "delete user";
+        return "delete word";
     }
 }

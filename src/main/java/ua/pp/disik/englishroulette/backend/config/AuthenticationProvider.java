@@ -7,8 +7,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import ua.pp.disik.englishroulette.backend.entities.JwtToken;
-import ua.pp.disik.englishroulette.backend.services.AuthenticationService;
+import ua.pp.disik.englishroulette.backend.entity.JwtToken;
+import ua.pp.disik.englishroulette.backend.service.AuthenticationService;
 
 @Component
 public class AuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
