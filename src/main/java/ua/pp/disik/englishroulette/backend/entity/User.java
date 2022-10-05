@@ -36,14 +36,29 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(@NotNull String name,
-                @NotNull String email,
-                @NotNull String password,
-                @NotNull Role role) {
+    private int readingCount;
+    private int memoryCount;
+    private int repeatTerm;
+    private int lessonSize;
+
+    public User(
+            @NotNull String name,
+            @NotNull String email,
+            @NotNull String password,
+            @NotNull Role role,
+            int readingCount,
+            int memoryCount,
+            int repeatTerm,
+            int lessonSize
+    ) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.readingCount = readingCount;
+        this.memoryCount = memoryCount;
+        this.repeatTerm = repeatTerm;
+        this.lessonSize = lessonSize;
     }
 
     @Override

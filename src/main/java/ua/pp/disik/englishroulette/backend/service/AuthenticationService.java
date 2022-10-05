@@ -26,11 +26,11 @@ public class AuthenticationService {
     public Optional<User> findByToken(JwtToken token) {
         return Optional.ofNullable(jwtTokenService.verify(token).get("id"))
                 .map(Integer::valueOf)
-                .flatMap(userService::findById);
+                .flatMap(userService.repository()::findById);
     }
 
     public Optional<JwtToken> signIn(String email, String password) {
-        return userService.findByEmail(email)
+        return userService.repository().findByEmail(email)
                 .filter(value -> passwordEncoder.matches(password, value.getPassword()))
                 .map(value -> {
                     Map<String, String> userData = new HashMap<>();
