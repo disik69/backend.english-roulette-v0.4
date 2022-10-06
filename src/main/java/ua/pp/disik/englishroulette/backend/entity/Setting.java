@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class Setting {
     @Id
     @Enumerated(EnumType.STRING)
-    private SettingKey name;
+    private SettingName name;
 
     @NotNull
     private String value;

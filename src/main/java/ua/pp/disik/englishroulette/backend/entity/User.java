@@ -7,8 +7,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(
@@ -41,6 +43,9 @@ public class User implements UserDetails {
     private int repeatTerm;
     private int lessonSize;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Exercise> exercises;
+
     public User(
             @NotNull String name,
             @NotNull String email,
@@ -59,6 +64,7 @@ public class User implements UserDetails {
         this.memoryCount = memoryCount;
         this.repeatTerm = repeatTerm;
         this.lessonSize = lessonSize;
+        this.exercises = new ArrayList<>();
     }
 
     @Override

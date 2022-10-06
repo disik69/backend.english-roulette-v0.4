@@ -2,7 +2,13 @@ package ua.pp.disik.englishroulette.backend.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+import ua.pp.disik.englishroulette.backend.entity.Exercise;
+import ua.pp.disik.englishroulette.backend.entity.User;
+
+import java.util.List;
 
 @Api
 @RestController
@@ -10,8 +16,12 @@ import org.springframework.web.bind.annotation.*;
 public class ExerciseController {
     @GetMapping()
     @ApiImplicitParam(name = "token", value = "token", paramType = "query")
-    String read() {
-        return "read exercises";
+    List<Exercise> read(
+            @ApiIgnore
+            @AuthenticationPrincipal
+            User user
+    ) {
+        return user.getExercises();
     }
 
     @GetMapping("/{id}")

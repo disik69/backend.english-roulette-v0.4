@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import ua.pp.disik.englishroulette.backend.entity.Setting;
 import ua.pp.disik.englishroulette.backend.service.SettingService;
 
-import static ua.pp.disik.englishroulette.backend.entity.SettingKey.*;
+import static ua.pp.disik.englishroulette.backend.entity.SettingName.*;
 
 @Component
 @Order(10)
@@ -23,13 +23,15 @@ public class SettingCreator extends Creator {
     @Override
     public void create() {
         Setting readingCount = new Setting(READING_COUNT, "7");
-        Setting memoryCount = new Setting(MEMORY_COUNT, "7");
-        Setting repeatTerm = new Setting(REPEAT_TERM, "7");
-        Setting lessonSize = new Setting(LESSON_SIZE, "30");
-
         log.info(settingService.repository().save(readingCount).toString());
+
+        Setting memoryCount = new Setting(MEMORY_COUNT, "7");
         log.info(settingService.repository().save(memoryCount).toString());
+
+        Setting repeatTerm = new Setting(REPEAT_TERM, "7");
         log.info(settingService.repository().save(repeatTerm).toString());
+
+        Setting lessonSize = new Setting(LESSON_SIZE, "30");
         log.info(settingService.repository().save(lessonSize).toString());
     }
 }
