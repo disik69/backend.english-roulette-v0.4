@@ -1,7 +1,6 @@
 package ua.pp.disik.englishroulette.backend.init;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import ua.pp.disik.englishroulette.backend.entity.Setting;
@@ -15,7 +14,6 @@ import static ua.pp.disik.englishroulette.backend.entity.SettingName.*;
 public class SettingCreator extends Creator {
     private final SettingService settingService;
 
-    @Autowired
     public SettingCreator(SettingService settingService) {
         this.settingService = settingService;
     }

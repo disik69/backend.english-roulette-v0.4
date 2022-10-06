@@ -1,6 +1,5 @@
 package ua.pp.disik.englishroulette.backend.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.AuthenticationException;
@@ -14,7 +13,6 @@ import ua.pp.disik.englishroulette.backend.service.AuthenticationService;
 public class AuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
     private final AuthenticationService authenticationService;
 
-    @Autowired
     public AuthenticationProvider(AuthenticationService authenticationService) {
         this.authenticationService = authenticationService;
     }

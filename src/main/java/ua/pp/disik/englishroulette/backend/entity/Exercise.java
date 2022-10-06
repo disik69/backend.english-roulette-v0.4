@@ -1,9 +1,14 @@
 package ua.pp.disik.englishroulette.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,21 +25,32 @@ public class Exercise {
     private long checkedAt;
     private long updatedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Word> nativeWords;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Word> foreignWords;
 
-    public Exercise(
-            int readingCount,
-            int memoryCount
-    ) {
-        this.readingCount = readingCount;
-        this.memoryCount = memoryCount;
+    public Exercise(@NotNull User user) {
+        this.user = user;
+        this.readingCount = user.getReadingCount();
+        this.memoryCount = user.getMemoryCount();
         this.checkedAt = System.currentTimeMillis();
         this.updatedAt = System.currentTimeMillis();
         this.nativeWords = new ArrayList<>();

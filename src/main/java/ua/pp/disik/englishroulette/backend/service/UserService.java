@@ -1,6 +1,5 @@
 package ua.pp.disik.englishroulette.backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.pp.disik.englishroulette.backend.repository.UserRepository;
 
@@ -8,7 +7,6 @@ import ua.pp.disik.englishroulette.backend.repository.UserRepository;
 public class UserService implements RepositoryService<UserRepository> {
     private final UserRepository userRepository;
 
-    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

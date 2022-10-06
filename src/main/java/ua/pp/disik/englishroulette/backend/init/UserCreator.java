@@ -1,7 +1,6 @@
 package ua.pp.disik.englishroulette.backend.init;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -21,7 +20,6 @@ public class UserCreator extends Creator {
     private final PasswordEncoder passwordEncoder;
     private final SettingService settingService;
 
-    @Autowired
     public UserCreator(
             UserService userService,
             PasswordEncoder passwordEncoder,
@@ -49,7 +47,7 @@ public class UserCreator extends Creator {
                 Role.USER,
                 readingCount, memoryCount, repeatTerm, lessonSize
         );
-        Exercise exercise = new Exercise(user.getReadingCount(), user.getMemoryCount());
+        Exercise exercise = new Exercise(user);
         exercise.getNativeWords().add(nativeWord);
         exercise.getForeignWords().add(foreignWord);
         user.getExercises().add(exercise);

@@ -22,10 +22,12 @@ public class JWTTokenService implements Clock {
     private final int clockSkewSec;
     private final String secretKey;
 
-    JWTTokenService(@Value("${jwt.issuer}") String issuer,
-                    @Value("${jwt.expiration-sec}") int expirationSec,
-                    @Value("${jwt.clock-skew-sec}") int clockSkewSec,
-                    @Value("${jwt.secret-key}") String secretKey) {
+    JWTTokenService(
+            @Value("${jwt.issuer}") String issuer,
+            @Value("${jwt.expiration-sec}") int expirationSec,
+            @Value("${jwt.clock-skew-sec}") int clockSkewSec,
+            @Value("${jwt.secret-key}") String secretKey
+    ) {
         this.issuer = issuer;
         this.expirationSec = expirationSec;
         this.clockSkewSec = clockSkewSec;

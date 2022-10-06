@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import ua.pp.disik.englishroulette.backend.entity.Exercise;
 import ua.pp.disik.englishroulette.backend.entity.User;
+import ua.pp.disik.englishroulette.backend.service.ExerciseService;
 
 import java.util.List;
 
@@ -14,6 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/exercise")
 public class ExerciseController {
+    private final ExerciseService exerciseService;
+
+    public ExerciseController(ExerciseService exerciseService) {
+        this.exerciseService = exerciseService;
+    }
+
     @GetMapping()
     @ApiImplicitParam(name = "token", value = "token", paramType = "query")
     List<Exercise> read(
@@ -21,7 +28,7 @@ public class ExerciseController {
             @AuthenticationPrincipal
             User user
     ) {
-        return user.getExercises();
+        return exerciseService.repository().findByUserId(user.getId());
     }
 
     @GetMapping("/{id}")

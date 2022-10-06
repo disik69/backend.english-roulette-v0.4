@@ -1,6 +1,5 @@
 package ua.pp.disik.englishroulette.backend.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.pp.disik.englishroulette.backend.entity.JwtToken;
@@ -16,8 +15,11 @@ public class AuthenticationService {
     private final JWTTokenService jwtTokenService;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public AuthenticationService(UserService userService, JWTTokenService jwtTokenService, PasswordEncoder passwordEncoder) {
+    public AuthenticationService(
+            UserService userService,
+            JWTTokenService jwtTokenService,
+            PasswordEncoder passwordEncoder
+    ) {
         this.userService = userService;
         this.jwtTokenService = jwtTokenService;
         this.passwordEncoder = passwordEncoder;

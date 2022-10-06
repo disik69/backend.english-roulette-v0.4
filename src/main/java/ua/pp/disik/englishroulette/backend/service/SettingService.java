@@ -13,7 +13,6 @@ import java.util.stream.StreamSupport;
 public class SettingService implements RepositoryService<SettingRepository> {
     private final SettingRepository settingRepository;
 
-    @Autowired
     public SettingService(SettingRepository settingRepository) {
         this.settingRepository = settingRepository;
     }

@@ -1,7 +1,11 @@
 package ua.pp.disik.englishroulette.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -44,6 +48,10 @@ public class User implements UserDetails {
     private int lessonSize;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private List<Exercise> exercises;
 
     public User(
