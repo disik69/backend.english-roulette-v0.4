@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ua.pp.disik.englishroulette.backend.entity.JwtToken;
-import ua.pp.disik.englishroulette.backend.exception.HttpBadRequestException;
+import ua.pp.disik.englishroulette.backend.exception.HttpErrorException;
 import ua.pp.disik.englishroulette.backend.service.AuthenticationService;
 
 @Api
@@ -21,6 +21,6 @@ public class SignController {
     public JwtToken in(@RequestParam("email") String email,
                        @RequestParam("password") String password) {
         return authenticationService.signIn(email, password)
-                .orElseThrow(() -> new HttpBadRequestException("The email/password is invalid"));
+                .orElseThrow(() -> new HttpErrorException(400, "The email/password is invalid"));
     }
 }
