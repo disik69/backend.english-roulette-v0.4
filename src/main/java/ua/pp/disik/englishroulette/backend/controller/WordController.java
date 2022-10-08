@@ -3,6 +3,8 @@ package ua.pp.disik.englishroulette.backend.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.web.bind.annotation.*;
+import ua.pp.disik.englishroulette.backend.dao.WordReadDao;
+import ua.pp.disik.englishroulette.backend.dao.WordWriteDao;
 import ua.pp.disik.englishroulette.backend.entity.Word;
 import ua.pp.disik.englishroulette.backend.service.WordService;
 
@@ -21,7 +23,7 @@ public class WordController {
     }
 
     @GetMapping()
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     List<Word> read() {
         return StreamSupport.stream(
                 wordService.repository().findAll().spliterator(),
@@ -30,31 +32,31 @@ public class WordController {
     }
 
     @GetMapping("/{id}")
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     String read(@PathVariable Integer id) {
         return "read word";
     }
 
     @PostMapping()
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
-    Word create(@RequestBody Word word) {
-        return wordService.repository().save(word);
+    @ApiImplicitParam(name = "token", paramType = "query")
+    WordReadDao create(@RequestBody WordWriteDao word) {
+        return wordService.create(word);
     }
 
     @PutMapping("/{id}")
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     String update(@PathVariable Integer id) {
         return "update word";
     }
 
     @DeleteMapping()
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     String delete() {
         return "delete words";
     }
 
     @DeleteMapping("/{id}")
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     String delete(@PathVariable Integer id) {
         return "delete word";
     }

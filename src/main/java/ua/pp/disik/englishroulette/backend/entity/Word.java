@@ -3,13 +3,14 @@ package ua.pp.disik.englishroulette.backend.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 
 @Entity
+@Table(
+        indexes = {
+                @Index(columnList = "body", unique = true)
+        }
+)
 @Data
 @NoArgsConstructor
 public class Word {
@@ -17,10 +18,9 @@ public class Word {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
     private String body;
 
-    public Word(@NotNull String body) {
+    public Word(String body) {
         this.body = body;
     }
 }

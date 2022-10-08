@@ -53,7 +53,7 @@ public class UserCreator extends Creator {
         user.getExercises().add(exercise);
         log.info(userService.repository().save(user).toString());
 
-        String adminEmail = "root@root.test";
+        String adminEmail = "admin@admin.test";
         User admin = new User(
                 adminEmail, adminEmail, passwordEncoder.encode(adminEmail),
                 Role.ADMIN,

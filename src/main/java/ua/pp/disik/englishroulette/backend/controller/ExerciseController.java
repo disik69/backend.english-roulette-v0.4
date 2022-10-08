@@ -22,7 +22,7 @@ public class ExerciseController {
     }
 
     @GetMapping()
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     List<Exercise> read(
             @ApiIgnore
             @AuthenticationPrincipal
@@ -32,31 +32,31 @@ public class ExerciseController {
     }
 
     @GetMapping("/{id}")
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     String read(@PathVariable Integer id) {
         return "read exercise";
     }
 
     @PostMapping()
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     String create() {
         return "create exercise";
     }
 
     @PutMapping("/{id}")
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     String update(@PathVariable Integer id) {
         return "update exercise";
     }
 
     @DeleteMapping()
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     String delete() {
         return "delete exercises";
     }
 
     @DeleteMapping("/{id}")
-    @ApiImplicitParam(name = "token", value = "token", paramType = "query")
+    @ApiImplicitParam(name = "token", paramType = "query")
     String delete(@PathVariable Integer id) {
         return "delete exercise";
     }
