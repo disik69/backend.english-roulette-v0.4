@@ -22,7 +22,7 @@ public class WordController {
 
     @GetMapping()
     @ApiImplicitParam(name = "token", paramType = "query")
-    WordPageDao read(
+    public WordPageDao read(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -31,13 +31,13 @@ public class WordController {
 
     @GetMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    String read(@PathVariable Integer id) {
+    public String read(@PathVariable Integer id) {
         return "read word";
     }
 
     @GetMapping("/search")
     @ApiImplicitParam(name = "token", paramType = "query")
-    List<WordReadDao> search(
+    public List<WordReadDao> search(
             @RequestParam String query,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -46,25 +46,25 @@ public class WordController {
 
     @PostMapping()
     @ApiImplicitParam(name = "token", paramType = "query")
-    WordReadDao create(@RequestBody WordWriteDao word) {
+    public WordReadDao create(@RequestBody WordWriteDao word) {
         return wordService.create(word);
     }
 
     @PutMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    String update(@PathVariable Integer id) {
+    public String update(@PathVariable Integer id) {
         return "update word";
     }
 
     @DeleteMapping()
     @ApiImplicitParam(name = "token", paramType = "query")
-    String delete() {
+    public String delete() {
         return "delete words";
     }
 
     @DeleteMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Integer id) {
         return "delete word";
     }
 }

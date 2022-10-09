@@ -12,6 +12,7 @@ import ua.pp.disik.englishroulette.backend.repository.WordRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class WordService implements RepositoryService<WordRepository> {
@@ -31,27 +32,21 @@ public class WordService implements RepositoryService<WordRepository> {
         return wordRepository;
     }
 
-    public WordReadDao create(WordWriteDao wordWriteDao) {
-        validationService.validate(wordWriteDao);
+    public WordReadDao create(WordWriteDao writeDao) {
+        validationService.validate(writeDao);
 
         Word word = new Word();
-        BeanUtils.copyProperties(wordWriteDao, word);
+        BeanUtils.copyProperties(writeDao, word);
         word = wordRepository.save(word);
-        WordReadDao dao = new WordReadDao();
-        BeanUtils.copyProperties(word, dao);
 
-        return dao;
+        return convertToReadDao(word);
     }
 
     public WordPageDao read(int page, int size) {
         Page<Word> words = wordRepository.findAll(PageRequest.of(page > 0 ? page - 1 : 0, size));
 
         WordPageDao pageDao = new WordPageDao();
-        pageDao.setContent(words.getContent().stream().map(word -> {
-            WordReadDao wordDao = new WordReadDao();
-            BeanUtils.copyProperties(word, wordDao);
-            return wordDao;
-        }).collect(Collectors.toList()));
+        pageDao.setContent(convertToReadDao(words.getContent()));
         pageDao.setPage(words.getNumber() + 1);
         pageDao.setSize(words.getSize());
         pageDao.setTotal(words.getTotalPages());
@@ -62,10 +57,21 @@ public class WordService implements RepositoryService<WordRepository> {
     public List<WordReadDao> search(String query, int size) {
         Page<Word> words = wordRepository.findByBodyContaining(query, PageRequest.of(0, size));
 
-        return words.getContent().stream().map(word -> {
-            WordReadDao dao = new WordReadDao();
-            BeanUtils.copyProperties(word, dao);
-            return dao;
-        }).collect(Collectors.toList());
+        return convertToReadDao(words.getContent());
+    }
+
+    public List<WordReadDao> convertToReadDao(List<Word> words) {
+        return words.stream().map(this::convertToReadDao).collect(Collectors.toList());
+    }
+
+    public WordReadDao convertToReadDao(Word word) {
+        WordReadDao dao = new WordReadDao();
+        BeanUtils.copyProperties(word, dao);
+        return dao;
+    }
+
+    public List<Word> findByIds(List<Integer> ids) {
+        return StreamSupport.stream(wordRepository.findAllById(ids).spliterator(), false)
+                .collect(Collectors.toList());
     }
 }

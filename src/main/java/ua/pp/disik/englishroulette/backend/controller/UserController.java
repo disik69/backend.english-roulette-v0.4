@@ -10,37 +10,37 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @GetMapping()
     @ApiImplicitParam(name = "token", paramType = "query")
-    String read() {
+    public String read() {
         return "read users";
     }
 
     @GetMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    String read(@PathVariable Integer id) {
+    public String read(@PathVariable Integer id) {
         return "read user";
     }
 
     @PostMapping()
     @ApiImplicitParam(name = "token", paramType = "query")
-    String create() {
+    public String create() {
         return "create user";
     }
 
     @PutMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    String update(@PathVariable Integer id) {
+    public String update(@PathVariable Integer id) {
         return "update user";
     }
 
     @DeleteMapping()
     @ApiImplicitParam(name = "token", paramType = "query")
-    String delete() {
+    public String delete() {
         return "delete users";
     }
 
     @DeleteMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Integer id) {
         return "delete user";
     }
 }
