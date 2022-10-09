@@ -3,14 +3,12 @@ package ua.pp.disik.englishroulette.backend.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.web.bind.annotation.*;
+import ua.pp.disik.englishroulette.backend.dao.WordPageDao;
 import ua.pp.disik.englishroulette.backend.dao.WordReadDao;
 import ua.pp.disik.englishroulette.backend.dao.WordWriteDao;
-import ua.pp.disik.englishroulette.backend.entity.Word;
 import ua.pp.disik.englishroulette.backend.service.WordService;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Api
 @RestController
@@ -24,17 +22,26 @@ public class WordController {
 
     @GetMapping()
     @ApiImplicitParam(name = "token", paramType = "query")
-    List<Word> read() {
-        return StreamSupport.stream(
-                wordService.repository().findAll().spliterator(),
-                false
-        ).collect(Collectors.toList());
+    WordPageDao read(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return wordService.read(page, size);
     }
 
     @GetMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
     String read(@PathVariable Integer id) {
         return "read word";
+    }
+
+    @GetMapping("/search")
+    @ApiImplicitParam(name = "token", paramType = "query")
+    List<WordReadDao> search(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return wordService.search(query, size);
     }
 
     @PostMapping()
