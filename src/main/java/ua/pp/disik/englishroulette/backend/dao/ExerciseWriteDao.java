@@ -7,10 +7,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-public class ExerciseUpdateDao {
-    @NotNull
-    private ExerciseStatusDao status;
-
+public class ExerciseWriteDao {
     @NotNull
     @Size(min = 1, max = 5)
     private List<Integer> nativeWordIds;

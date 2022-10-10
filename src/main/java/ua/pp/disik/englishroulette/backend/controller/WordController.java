@@ -31,7 +31,7 @@ public class WordController {
 
     @GetMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public String read(@PathVariable Integer id) {
+    public String read(@PathVariable int id) {
         return "read word";
     }
 
@@ -52,7 +52,7 @@ public class WordController {
 
     @PutMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public String update(@PathVariable Integer id) {
+    public String update(@PathVariable int id) {
         return "update word";
     }
 
@@ -64,7 +64,7 @@ public class WordController {
 
     @DeleteMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable int id) {
         return "delete word";
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 @Data
 public class ExerciseReadDao {
+    private int id;
     private int readingCount;
     private int memoryCount;
     private ExerciseStatusDao status;

@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import ua.pp.disik.englishroulette.backend.dao.ExerciseCreateDao;
+import ua.pp.disik.englishroulette.backend.dao.ExerciseWriteDao;
 import ua.pp.disik.englishroulette.backend.dao.ExercisePageDao;
 import ua.pp.disik.englishroulette.backend.dao.ExerciseReadDao;
 import ua.pp.disik.englishroulette.backend.entity.User;
@@ -38,8 +38,14 @@ public class ExerciseController {
 
     @GetMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public String read(@PathVariable Integer id) {
-        return "read exercise";
+    public ExerciseReadDao read(
+            @ApiIgnore
+            @AuthenticationPrincipal
+            User user,
+
+            @PathVariable int id
+    ) {
+        return exerciseService.read(id, user);
     }
 
     @GetMapping("/search")
@@ -92,15 +98,58 @@ public class ExerciseController {
             @AuthenticationPrincipal
             User user,
 
-            @RequestBody ExerciseCreateDao exercise
+            @RequestBody ExerciseWriteDao exercise
     ) {
         return exerciseService.create(exercise, user);
     }
 
     @PutMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public String update(@PathVariable Integer id) {
-        return "update exercise";
+    public ExerciseReadDao update(
+            @ApiIgnore
+            @AuthenticationPrincipal
+            User user,
+
+            @PathVariable int id,
+            @RequestBody ExerciseWriteDao exercise
+    ) {
+        return exerciseService.update(id, exercise, user);
+    }
+
+    @PutMapping("/{id}/pick-up")
+    @ApiImplicitParam(name = "token", paramType = "query")
+    public ExerciseReadDao pickUp(
+            @ApiIgnore
+            @AuthenticationPrincipal
+            User user,
+
+            @PathVariable int id
+    ) {
+        return null;
+    }
+
+    @PutMapping("/{id}/set-added")
+    @ApiImplicitParam(name = "token", paramType = "query")
+    public ExerciseReadDao setAdded(
+            @ApiIgnore
+            @AuthenticationPrincipal
+            User user,
+
+            @PathVariable int id
+    ) {
+        return null;
+    }
+
+    @PutMapping("/{id}/set-learned")
+    @ApiImplicitParam(name = "token", paramType = "query")
+    public ExerciseReadDao setLearned(
+            @ApiIgnore
+            @AuthenticationPrincipal
+            User user,
+
+            @PathVariable int id
+    ) {
+        return null;
     }
 
     @DeleteMapping()
@@ -111,7 +160,7 @@ public class ExerciseController {
 
     @DeleteMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable int id) {
         return "delete exercise";
     }
 }

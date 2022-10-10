@@ -2,14 +2,18 @@ package ua.pp.disik.englishroulette.backend.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import ua.pp.disik.englishroulette.backend.dao.ExerciseCreateDao;
+import org.springframework.transaction.annotation.Transactional;
+import ua.pp.disik.englishroulette.backend.dao.ExerciseWriteDao;
 import ua.pp.disik.englishroulette.backend.dao.ExerciseReadDao;
 import ua.pp.disik.englishroulette.backend.dao.ExerciseStatusDao;
 import ua.pp.disik.englishroulette.backend.entity.Exercise;
 import ua.pp.disik.englishroulette.backend.entity.User;
+import ua.pp.disik.englishroulette.backend.entity.Word;
+import ua.pp.disik.englishroulette.backend.exception.HttpErrorException;
 import ua.pp.disik.englishroulette.backend.repository.ExerciseRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,13 +37,36 @@ public class ExerciseService implements RepositoryService<ExerciseRepository> {
         return exerciseRepository;
     }
 
-    public ExerciseReadDao create(ExerciseCreateDao createDao, User user) {
-        validationService.validate(createDao);
+    @Transactional
+    public ExerciseReadDao create(ExerciseWriteDao dao, User user) {
+        validationService.validate(dao);
 
         Exercise exercise = new Exercise(user);
-        BeanUtils.copyProperties(createDao, exercise);
-        exercise.setForeignWords(wordService.findByIds(createDao.getForeignWordIds()));
-        exercise.setNativeWords(wordService.findByIds(createDao.getNativeWordIds()));
+        setWords(exercise, dao.getForeignWordIds(), dao.getNativeWordIds());
+        exercise = exerciseRepository.save(exercise);
+
+        return convertToReadDao(exercise);
+    }
+
+    private Exercise getUserExercise(Optional<Exercise> optionalExercise, User user) {
+        Exercise exercise = optionalExercise
+                .orElseThrow(() -> new HttpErrorException(404, "Exercise is not found"));
+        if (! exercise.getUser().equals(user)) {
+            throw new HttpErrorException(403, "Forbidden");
+        }
+        return exercise;
+    }
+
+    protected void setWords(Exercise exercise, List<Integer> foreignWordIds, List<Integer> nativeWordIds) {
+        exercise.setForeignWords(wordService.findByIds(foreignWordIds));
+        exercise.setNativeWords(wordService.findByIds(nativeWordIds));
+    }
+
+    public ExerciseReadDao update(int id, ExerciseWriteDao dao, User user) {
+        validationService.validate(dao);
+
+        Exercise exercise = getUserExercise(exerciseRepository.findById(id), user);
+        setWords(exercise, dao.getForeignWordIds(), dao.getNativeWordIds());
         exercise = exerciseRepository.save(exercise);
 
         return convertToReadDao(exercise);
@@ -60,5 +87,10 @@ public class ExerciseService implements RepositoryService<ExerciseRepository> {
         dao.setNativeWords(wordService.convertToReadDao(exercise.getNativeWords()));
         dao.setForeignWords(wordService.convertToReadDao(exercise.getForeignWords()));
         return dao;
+    }
+
+    @Transactional
+    public ExerciseReadDao read(int id, User user) {
+        return convertToReadDao(getUserExercise(exerciseRepository.findById(id), user));
     }
 }

@@ -32,11 +32,11 @@ public class WordService implements RepositoryService<WordRepository> {
         return wordRepository;
     }
 
-    public WordReadDao create(WordWriteDao writeDao) {
-        validationService.validate(writeDao);
+    public WordReadDao create(WordWriteDao dao) {
+        validationService.validate(dao);
 
         Word word = new Word();
-        BeanUtils.copyProperties(writeDao, word);
+        BeanUtils.copyProperties(dao, word);
         word = wordRepository.save(word);
 
         return convertToReadDao(word);

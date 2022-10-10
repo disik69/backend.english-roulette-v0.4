@@ -16,7 +16,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public String read(@PathVariable Integer id) {
+    public String read(@PathVariable int id) {
         return "read user";
     }
 
@@ -28,7 +28,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public String update(@PathVariable Integer id) {
+    public String update(@PathVariable int id) {
         return "update user";
     }
 
@@ -40,7 +40,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable int id) {
         return "delete user";
     }
 }

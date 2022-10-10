@@ -25,24 +25,17 @@ public class Exercise {
     private long checkedAt;
     private long updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
+    @ManyToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Word> nativeWords;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Word> foreignWords;
