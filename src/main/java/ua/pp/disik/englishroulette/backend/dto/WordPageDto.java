@@ -1,12 +1,12 @@
-package ua.pp.disik.englishroulette.backend.dao;
+package ua.pp.disik.englishroulette.backend.dto;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class WordPageDao {
-    private List<WordReadDao> content;
+public class WordPageDto {
+    private List<WordReadDto> content;
     private int page;
     private int size;
     private int total;

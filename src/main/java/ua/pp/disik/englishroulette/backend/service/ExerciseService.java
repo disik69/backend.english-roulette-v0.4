@@ -3,12 +3,11 @@ package ua.pp.disik.englishroulette.backend.service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.pp.disik.englishroulette.backend.dao.ExerciseWriteDao;
-import ua.pp.disik.englishroulette.backend.dao.ExerciseReadDao;
-import ua.pp.disik.englishroulette.backend.dao.ExerciseStatusDao;
+import ua.pp.disik.englishroulette.backend.dto.ExerciseWriteDto;
+import ua.pp.disik.englishroulette.backend.dto.ExerciseReadDto;
+import ua.pp.disik.englishroulette.backend.dto.ExerciseStatusDto;
 import ua.pp.disik.englishroulette.backend.entity.Exercise;
 import ua.pp.disik.englishroulette.backend.entity.User;
-import ua.pp.disik.englishroulette.backend.entity.Word;
 import ua.pp.disik.englishroulette.backend.exception.HttpErrorException;
 import ua.pp.disik.englishroulette.backend.repository.ExerciseRepository;
 
@@ -38,14 +37,14 @@ public class ExerciseService implements RepositoryService<ExerciseRepository> {
     }
 
     @Transactional
-    public ExerciseReadDao create(ExerciseWriteDao dao, User user) {
-        validationService.validate(dao);
+    public ExerciseReadDto create(ExerciseWriteDto dto, User user) {
+        validationService.validate(dto);
 
         Exercise exercise = new Exercise(user);
-        setWords(exercise, dao.getForeignWordIds(), dao.getNativeWordIds());
+        setWords(exercise, dto.getForeignWordIds(), dto.getNativeWordIds());
         exercise = exerciseRepository.save(exercise);
 
-        return convertToReadDao(exercise);
+        return convertToReadDto(exercise);
     }
 
     private Exercise getUserExercise(Optional<Exercise> optionalExercise, User user) {
@@ -62,35 +61,35 @@ public class ExerciseService implements RepositoryService<ExerciseRepository> {
         exercise.setNativeWords(wordService.findByIds(nativeWordIds));
     }
 
-    public ExerciseReadDao update(int id, ExerciseWriteDao dao, User user) {
-        validationService.validate(dao);
+    public ExerciseReadDto update(int id, ExerciseWriteDto dto, User user) {
+        validationService.validate(dto);
 
         Exercise exercise = getUserExercise(exerciseRepository.findById(id), user);
-        setWords(exercise, dao.getForeignWordIds(), dao.getNativeWordIds());
+        setWords(exercise, dto.getForeignWordIds(), dto.getNativeWordIds());
         exercise = exerciseRepository.save(exercise);
 
-        return convertToReadDao(exercise);
+        return convertToReadDto(exercise);
     }
 
-    public List<ExerciseReadDao> convertToReadDao(List<Exercise> exercises) {
-        return exercises.stream().map(this::convertToReadDao).collect(Collectors.toList());
+    public List<ExerciseReadDto> convertToReadDto(List<Exercise> exercises) {
+        return exercises.stream().map(this::convertToReadDto).collect(Collectors.toList());
     }
 
-    public ExerciseReadDao convertToReadDao(Exercise exercise) {
-        ExerciseReadDao dao = new ExerciseReadDao();
-        BeanUtils.copyProperties(exercise, dao);
+    public ExerciseReadDto convertToReadDto(Exercise exercise) {
+        ExerciseReadDto dto = new ExerciseReadDto();
+        BeanUtils.copyProperties(exercise, dto);
         if (exercise.getUpdatedAt() >= exercise.getCheckedAt()) {
-            dao.setStatus(ExerciseStatusDao.ADDED);
+            dto.setStatus(ExerciseStatusDto.ADDED);
         } else {
-            dao.setStatus(ExerciseStatusDao.LEARNED);
+            dto.setStatus(ExerciseStatusDto.LEARNED);
         }
-        dao.setNativeWords(wordService.convertToReadDao(exercise.getNativeWords()));
-        dao.setForeignWords(wordService.convertToReadDao(exercise.getForeignWords()));
-        return dao;
+        dto.setNativeWords(wordService.convertToReadDto(exercise.getNativeWords()));
+        dto.setForeignWords(wordService.convertToReadDto(exercise.getForeignWords()));
+        return dto;
     }
 
     @Transactional
-    public ExerciseReadDao read(int id, User user) {
-        return convertToReadDao(getUserExercise(exerciseRepository.findById(id), user));
+    public ExerciseReadDto read(int id, User user) {
+        return convertToReadDto(getUserExercise(exerciseRepository.findById(id), user));
     }
 }

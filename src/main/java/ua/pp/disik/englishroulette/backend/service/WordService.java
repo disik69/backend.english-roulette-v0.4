@@ -4,9 +4,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import ua.pp.disik.englishroulette.backend.dao.WordPageDao;
-import ua.pp.disik.englishroulette.backend.dao.WordReadDao;
-import ua.pp.disik.englishroulette.backend.dao.WordWriteDao;
+import ua.pp.disik.englishroulette.backend.dto.WordPageDto;
+import ua.pp.disik.englishroulette.backend.dto.WordReadDto;
+import ua.pp.disik.englishroulette.backend.dto.WordWriteDto;
 import ua.pp.disik.englishroulette.backend.entity.Word;
 import ua.pp.disik.englishroulette.backend.repository.WordRepository;
 
@@ -32,42 +32,42 @@ public class WordService implements RepositoryService<WordRepository> {
         return wordRepository;
     }
 
-    public WordReadDao create(WordWriteDao dao) {
-        validationService.validate(dao);
+    public WordReadDto create(WordWriteDto dto) {
+        validationService.validate(dto);
 
         Word word = new Word();
-        BeanUtils.copyProperties(dao, word);
+        BeanUtils.copyProperties(dto, word);
         word = wordRepository.save(word);
 
-        return convertToReadDao(word);
+        return convertToReadDto(word);
     }
 
-    public WordPageDao read(int page, int size) {
+    public WordPageDto read(int page, int size) {
         Page<Word> words = wordRepository.findAll(PageRequest.of(page > 0 ? page - 1 : 0, size));
 
-        WordPageDao pageDao = new WordPageDao();
-        pageDao.setContent(convertToReadDao(words.getContent()));
-        pageDao.setPage(words.getNumber() + 1);
-        pageDao.setSize(words.getSize());
-        pageDao.setTotal(words.getTotalPages());
+        WordPageDto pageDto = new WordPageDto();
+        pageDto.setContent(convertToReadDto(words.getContent()));
+        pageDto.setPage(words.getNumber() + 1);
+        pageDto.setSize(words.getSize());
+        pageDto.setTotal(words.getTotalPages());
 
-        return pageDao;
+        return pageDto;
     }
 
-    public List<WordReadDao> search(String query, int size) {
+    public List<WordReadDto> search(String query, int size) {
         Page<Word> words = wordRepository.findByBodyContaining(query, PageRequest.of(0, size));
 
-        return convertToReadDao(words.getContent());
+        return convertToReadDto(words.getContent());
     }
 
-    public List<WordReadDao> convertToReadDao(List<Word> words) {
-        return words.stream().map(this::convertToReadDao).collect(Collectors.toList());
+    public List<WordReadDto> convertToReadDto(List<Word> words) {
+        return words.stream().map(this::convertToReadDto).collect(Collectors.toList());
     }
 
-    public WordReadDao convertToReadDao(Word word) {
-        WordReadDao dao = new WordReadDao();
-        BeanUtils.copyProperties(word, dao);
-        return dao;
+    public WordReadDto convertToReadDto(Word word) {
+        WordReadDto dto = new WordReadDto();
+        BeanUtils.copyProperties(word, dto);
+        return dto;
     }
 
     public List<Word> findByIds(List<Integer> ids) {

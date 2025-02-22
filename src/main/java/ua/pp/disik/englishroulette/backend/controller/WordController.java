@@ -3,9 +3,9 @@ package ua.pp.disik.englishroulette.backend.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.web.bind.annotation.*;
-import ua.pp.disik.englishroulette.backend.dao.WordPageDao;
-import ua.pp.disik.englishroulette.backend.dao.WordReadDao;
-import ua.pp.disik.englishroulette.backend.dao.WordWriteDao;
+import ua.pp.disik.englishroulette.backend.dto.WordPageDto;
+import ua.pp.disik.englishroulette.backend.dto.WordReadDto;
+import ua.pp.disik.englishroulette.backend.dto.WordWriteDto;
 import ua.pp.disik.englishroulette.backend.service.WordService;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class WordController {
 
     @GetMapping()
     @ApiImplicitParam(name = "token", paramType = "query")
-    public WordPageDao read(
+    public WordPageDto read(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -37,7 +37,7 @@ public class WordController {
 
     @GetMapping("/search")
     @ApiImplicitParam(name = "token", paramType = "query")
-    public List<WordReadDao> search(
+    public List<WordReadDto> search(
             @RequestParam String query,
             @RequestParam(defaultValue = "10") int size
     ) {
@@ -46,7 +46,7 @@ public class WordController {
 
     @PostMapping()
     @ApiImplicitParam(name = "token", paramType = "query")
-    public WordReadDao create(@RequestBody WordWriteDao word) {
+    public WordReadDto create(@RequestBody WordWriteDto word) {
         return wordService.create(word);
     }
 
