@@ -3,7 +3,7 @@ package ua.pp.disik.englishroulette.backend.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(

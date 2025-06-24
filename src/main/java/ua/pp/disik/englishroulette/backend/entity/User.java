@@ -2,15 +2,15 @@ package ua.pp.disik.englishroulette.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.annotation.Nonnull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.persistence.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,16 +29,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull
+    @Nonnull
     private String name;
 
-    @NotNull
+    @Nonnull
     private String email;
 
-    @NotNull
+    @Nonnull
     private String password;
 
-    @NotNull
+    @Nonnull
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -55,10 +55,10 @@ public class User implements UserDetails {
     private List<Exercise> exercises;
 
     public User(
-            @NotNull String name,
-            @NotNull String email,
-            @NotNull String password,
-            @NotNull Role role,
+            @Nonnull String name,
+            @Nonnull String email,
+            @Nonnull String password,
+            @Nonnull Role role,
             int readingCount,
             int memoryCount,
             int repeatTerm,

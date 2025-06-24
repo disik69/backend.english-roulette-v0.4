@@ -3,15 +3,18 @@ package ua.pp.disik.englishroulette.backend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -23,14 +26,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ua.pp.disik.englishroulette.backend.exception.HttpErrorException;
 import ua.pp.disik.englishroulette.backend.exception.HttpErrorExceptionAdvice;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
-
+@Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration {
     private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
             // swagger paths
             new AntPathRequestMatcher("/swagger-ui.html"),
@@ -74,34 +76,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.httpErrorExceptionAdvice = httpErrorExceptionAdvice;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authenticationProvider);
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .sessionManagement()
-                    .sessionCreationPolicy(STATELESS)
-                    .and()
-                .addFilterBefore(authenticationFilter(), AnonymousAuthenticationFilter.class)
-                .authorizeRequests()
-                    .requestMatchers(USER_URLS).hasAnyRole("USER", "ADMIN")
-                    .requestMatchers(ADMIN_URLS).hasRole("ADMIN")
-                    .and()
-                .exceptionHandling()
-                    .accessDeniedHandler(accessDeniedHandler())
-                    .and()
-                .csrf().disable()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .logout().disable();
+    @Bean
+    protected AuthenticationManager authenticationManager() {
+        return new ProviderManager(authenticationProvider);
     }
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .addFilterBefore(authenticationFilter(), AuthorizationFilter.class)
+                .authorizeHttpRequests(registry -> {
+                    registry.requestMatchers(USER_URLS).hasAnyRole("USER", "ADMIN");
+                    registry.requestMatchers(ADMIN_URLS).hasRole("ADMIN");
+                })
+                .exceptionHandling(configurer -> {
+                    configurer.accessDeniedHandler(accessDeniedHandler());
+                });
+        return httpSecurity.build();
     }
 
     @Bean
@@ -116,7 +107,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         AuthenticationFilter filter = new AuthenticationFilter(PROTECTED_URLS);
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(authenticationSuccessHandler());
-        filter.setAuthenticationFailureHandler(authetnicationFailureHandler());
+        filter.setAuthenticationFailureHandler(authenticationFailureHandler());
 
         return filter;
     }
@@ -130,7 +121,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    AuthenticationFailureHandler authetnicationFailureHandler() {
+    AuthenticationFailureHandler authenticationFailureHandler() {
         return (request, response, exception) -> {
             sendHttpError(response, new HttpErrorException(401, exception.getMessage()));
         };
@@ -147,7 +138,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private void sendHttpError(HttpServletResponse response, HttpErrorException error) throws IOException {
             ResponseEntity<Object> responseEntity = httpErrorExceptionAdvice.handle(error);
 
-            response.setStatus(responseEntity.getStatusCodeValue());
+            response.setStatus(responseEntity.getStatusCode().value());
             responseEntity.getHeaders().entrySet().forEach(
                     entry -> entry.getValue().forEach(
                             value -> response.addHeader(entry.getKey(), value)

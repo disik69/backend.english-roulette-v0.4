@@ -1,11 +1,11 @@
 package ua.pp.disik.englishroulette.backend.entity;
 
+import jakarta.annotation.Nonnull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
 
 @Entity
 @Data
@@ -16,6 +16,6 @@ public class Setting {
     @Enumerated(EnumType.STRING)
     private SettingName name;
 
-    @NotNull
+    @Nonnull
     private String value;
 }
