@@ -1,7 +1,5 @@
 package ua.pp.disik.englishroulette.backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModelProperty;
 import jakarta.annotation.Nonnull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -48,8 +46,6 @@ public class User implements UserDetails {
     private int lessonSize;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    @ApiModelProperty(hidden = true)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<Exercise> exercises;

@@ -1,10 +1,9 @@
 package ua.pp.disik.englishroulette.backend.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 import ua.pp.disik.englishroulette.backend.dto.ExerciseWriteDto;
 import ua.pp.disik.englishroulette.backend.dto.ExercisePageDto;
 import ua.pp.disik.englishroulette.backend.dto.ExerciseReadDto;
@@ -13,9 +12,9 @@ import ua.pp.disik.englishroulette.backend.service.ExerciseService;
 
 import java.util.List;
 
-@Api
 @RestController
 @RequestMapping("/exercise")
+@Tag(name = "/exercise")
 public class ExerciseController {
     private final ExerciseService exerciseService;
 
@@ -24,9 +23,9 @@ public class ExerciseController {
     }
 
     @GetMapping()
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public ExercisePageDto read(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user,
 
@@ -37,9 +36,9 @@ public class ExerciseController {
     }
 
     @GetMapping("/{id}")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public ExerciseReadDto read(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user,
 
@@ -49,9 +48,9 @@ public class ExerciseController {
     }
 
     @GetMapping("/search")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public List<ExerciseReadDto> search(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user,
 
@@ -62,9 +61,9 @@ public class ExerciseController {
     }
 
     @GetMapping("/lesson/reading")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public List<ExerciseReadDto> getReading(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user
     ) {
@@ -72,9 +71,9 @@ public class ExerciseController {
     }
 
     @GetMapping("/lesson/memory")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public List<ExerciseReadDto> getMemory(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user
     ) {
@@ -82,9 +81,9 @@ public class ExerciseController {
     }
 
     @GetMapping("/lesson/check")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public List<ExerciseReadDto> getCheck(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user
     ) {
@@ -92,9 +91,9 @@ public class ExerciseController {
     }
 
     @PostMapping()
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public ExerciseReadDto create(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user,
 
@@ -104,9 +103,9 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public ExerciseReadDto update(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user,
 
@@ -117,9 +116,9 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}/pick-up")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public ExerciseReadDto pickUp(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user,
 
@@ -129,9 +128,9 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}/set-added")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public ExerciseReadDto setAdded(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user,
 
@@ -141,9 +140,9 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}/set-learned")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public ExerciseReadDto setLearned(
-            @ApiIgnore
+            @Parameter(hidden = true)
             @AuthenticationPrincipal
             User user,
 
@@ -153,13 +152,13 @@ public class ExerciseController {
     }
 
     @DeleteMapping()
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public String delete() {
         return "delete exercises";
     }
 
     @DeleteMapping("/{id}")
-    @ApiImplicitParam(name = "token", paramType = "query")
+    @Parameter(name = "token")
     public String delete(@PathVariable int id) {
         return "delete exercise";
     }

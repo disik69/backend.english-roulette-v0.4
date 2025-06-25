@@ -10,11 +10,10 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
+import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -36,9 +35,9 @@ public class SecurityConfiguration {
     private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
             // swagger paths
             new AntPathRequestMatcher("/swagger-ui.html"),
-            new AntPathRequestMatcher("/webjars/**"),
-            new AntPathRequestMatcher("/swagger-resources/**"),
-            new AntPathRequestMatcher("/swagger-v2"),
+            new AntPathRequestMatcher("/swagger-ui/**"),
+            new AntPathRequestMatcher("/v3/api-docs/**"),
+
             new AntPathRequestMatcher("/actuator/**"),
 
             new AntPathRequestMatcher("/"),
@@ -88,6 +87,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(registry -> {
                     registry.requestMatchers(USER_URLS).hasAnyRole("USER", "ADMIN");
                     registry.requestMatchers(ADMIN_URLS).hasRole("ADMIN");
+                    registry.anyRequest().permitAll();
+                })
+                .csrf(configurer -> {
+                    configurer.disable();
                 })
                 .exceptionHandling(configurer -> {
                     configurer.accessDeniedHandler(accessDeniedHandler());
