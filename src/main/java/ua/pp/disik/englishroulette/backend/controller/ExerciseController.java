@@ -23,7 +23,6 @@ public class ExerciseController {
     }
 
     @GetMapping()
-    @Parameter(name = "token")
     public ExercisePageDto read(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -36,7 +35,6 @@ public class ExerciseController {
     }
 
     @GetMapping("/{id}")
-    @Parameter(name = "token")
     public ExerciseReadDto read(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -48,7 +46,6 @@ public class ExerciseController {
     }
 
     @GetMapping("/search")
-    @Parameter(name = "token")
     public List<ExerciseReadDto> search(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -61,7 +58,6 @@ public class ExerciseController {
     }
 
     @GetMapping("/lesson/reading")
-    @Parameter(name = "token")
     public List<ExerciseReadDto> getReading(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -71,7 +67,6 @@ public class ExerciseController {
     }
 
     @GetMapping("/lesson/memory")
-    @Parameter(name = "token")
     public List<ExerciseReadDto> getMemory(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -81,7 +76,6 @@ public class ExerciseController {
     }
 
     @GetMapping("/lesson/check")
-    @Parameter(name = "token")
     public List<ExerciseReadDto> getCheck(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -91,7 +85,6 @@ public class ExerciseController {
     }
 
     @PostMapping()
-    @Parameter(name = "token")
     public ExerciseReadDto create(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -103,7 +96,6 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}")
-    @Parameter(name = "token")
     public ExerciseReadDto update(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -116,7 +108,6 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}/pick-up")
-    @Parameter(name = "token")
     public ExerciseReadDto pickUp(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -128,7 +119,6 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}/set-added")
-    @Parameter(name = "token")
     public ExerciseReadDto setAdded(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -140,7 +130,6 @@ public class ExerciseController {
     }
 
     @PutMapping("/{id}/set-learned")
-    @Parameter(name = "token")
     public ExerciseReadDto setLearned(
             @Parameter(hidden = true)
             @AuthenticationPrincipal
@@ -152,13 +141,11 @@ public class ExerciseController {
     }
 
     @DeleteMapping()
-    @Parameter(name = "token")
     public String delete() {
         return "delete exercises";
     }
 
     @DeleteMapping("/{id}")
-    @Parameter(name = "token")
     public String delete(@PathVariable int id) {
         return "delete exercise";
     }

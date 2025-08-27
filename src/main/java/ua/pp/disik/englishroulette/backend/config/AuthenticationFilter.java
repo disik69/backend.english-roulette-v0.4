@@ -25,7 +25,7 @@ public class AuthenticationFilter extends AbstractAuthenticationProcessingFilter
             HttpServletRequest request,
             HttpServletResponse response
     ) throws AuthenticationException, IOException, ServletException {
-        JwtToken token = Optional.ofNullable(request.getParameter("token"))
+        JwtToken token = Optional.ofNullable(request.getHeader(SecurityConfiguration.SECURITY_HEADER_NAME))
                 .map(JwtToken::new)
                 .orElseThrow(() -> new BadCredentialsException("Missing authentication token"));
 

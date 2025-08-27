@@ -21,7 +21,6 @@ public class WordController {
     }
 
     @GetMapping()
-    @Parameter(name = "token")
     public WordPageDto read(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size
@@ -30,13 +29,11 @@ public class WordController {
     }
 
     @GetMapping("/{id}")
-    @Parameter(name = "token")
     public String read(@PathVariable int id) {
         return "read word";
     }
 
     @GetMapping("/search")
-    @Parameter(name = "token")
     public List<WordReadDto> search(
             @RequestParam String query,
             @RequestParam(defaultValue = "10") int size
@@ -45,25 +42,21 @@ public class WordController {
     }
 
     @PostMapping()
-    @Parameter(name = "token")
     public WordReadDto create(@RequestBody WordWriteDto word) {
         return wordService.create(word);
     }
 
     @PutMapping("/{id}")
-    @Parameter(name = "token")
     public String update(@PathVariable int id) {
         return "update word";
     }
 
     @DeleteMapping()
-    @Parameter(name = "token")
     public String delete() {
         return "delete words";
     }
 
     @DeleteMapping("/{id}")
-    @Parameter(name = "token")
     public String delete(@PathVariable int id) {
         return "delete word";
     }
