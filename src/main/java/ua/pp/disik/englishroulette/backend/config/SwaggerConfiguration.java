@@ -5,10 +5,14 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springdoc.core.customizers.GlobalOperationCustomizer;
 import org.springdoc.core.customizers.OpenApiCustomizer;
+import org.springdoc.core.customizers.OperationCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.PostMapping;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 @Configuration
@@ -74,4 +78,11 @@ public class SwaggerConfiguration {
 //                    );
                 });
     }
+
+//    @Bean
+//    OperationCustomizer operationCustomizer() {
+//        return (operation, handler) -> {
+//            return operation;
+//        };
+//    }
 }
